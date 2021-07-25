@@ -7,7 +7,7 @@ async function fetchPictures(name,page) {
     
     try {
         const response = await axios.get(`${BASE_URL}?key=${API_KEY}&q=${name}&${params}&page=${page}`);
-    return response;
+    return response.data;
     }
     catch (error) {
     console.error(error);
