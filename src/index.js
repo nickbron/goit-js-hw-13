@@ -24,7 +24,10 @@ async function onSearch(e) {
   e.preventDefault();
   name = e.currentTarget.elements.searchQuery.value;
 
-  if (name.trim() === "") { Notify.failure("Sorry, there are no images matching your search query. Please try again."); return; }
+  if (name.trim() === "") {
+   
+    Notify.failure("Sorry, there are no images matching your search query. Please try again."); return;
+  }
   
   try {
     const cards = await API.fetchPictures(name, pageNumber);
@@ -40,7 +43,7 @@ async function onSearch(e) {
       lightbox.refresh();
     }
     else
-    {
+    {refs.buttonLoadMore.classList.add('is-hidden');
      Notify.failure("Sorry, there are no images matching your search query. Please try again.");
       }
   }
@@ -63,11 +66,16 @@ async function OnMore() {
   let count=0;
   const cards = await API.fetchPictures(name, ++pageNumber);
   renderCardsimages(cards);
-  lightbox.refresh();
+ lightbox.refresh();
   count = pageNumber * cards.hits.length;
-  if (count >= cards.totalHits) {
+  console.log("Общее кол-во", count );
+  console.log("всего на странице", cards.totalHits );
+
+  
+  if (count ===0 || count >= cards.totalHits)
+   {
+   refs.buttonLoadMore.classList.add('is-hidden');
     Notify.info("We're sorry, but you've reached the end of search results.");
-    refs.buttonLoadMore.classList.add('is-hidden');
   } 
 
 }
